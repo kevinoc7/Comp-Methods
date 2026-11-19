@@ -49,6 +49,8 @@ def plot_streamflow(dates, flows, sites):
     plt.grid(True)
     plt.xticks(rotation=45)
     plt.tight_layout()
+    plt.savefig(DATA_DIR / 'provo_streamflow.png',
+                dpi=150, bbox_inches='tight')
     plt.show()
 
 
@@ -282,3 +284,5 @@ if __name__ == '__main__':
         'June-2021-Provo-River-Streamflow-Rates.csv'
     )
     plot_streamflow(dates, flows, sites)
+
+    plt.savefig("provo_streamflow.png", dpi=150, bbox_inches="tight")
