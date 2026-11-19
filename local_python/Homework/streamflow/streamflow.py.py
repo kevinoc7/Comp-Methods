@@ -54,6 +54,40 @@ def plot_streamflow(dates, flows, sites):
     plt.show()
 
 
+def summarize(dates, flows, sites):
+    """Print and save maximum, minimum, and average flow statistics."""
+    rows = []
+
+    print(f"{'Gauge':<10} {'Max (cfs)':>10} {'Date of max':>22} "
+          f"{'Min (cfs)':>10} {'Avg (cfs)':>12}")
+    print("-" * 70)
+
+    for i, site in enumerate(sites):
+        gauge_flows = flows[:, i]
+        max_index = np.argmax(gauge_flows)
+        max_value = gauge_flows[max_index]
+        max_date = pd.Timestamp(dates[max_index]).strftime(
+            '%Y-%m-%d %H:%M'
+        )
+        min_value = np.min(gauge_flows)
+        avg_value = np.mean(gauge_flows)
+
+        print(f"{site:<10} {max_value:>10.1f} {max_date:>22} "
+              f"{min_value:>10.1f} {avg_value:>12.1f}")
+
+        rows.append({
+            'Gauge': site,
+            'Max (cfs)': max_value,
+            'Date of max': max_date,
+            'Min (cfs)': min_value,
+            'Avg (cfs)': avg_value,
+        })
+
+    summary = pd.DataFrame(rows)
+    summary.to_csv(DATA_DIR / 'streamflow_summary.csv', index=False)
+    return summary
+
+
 
 L = 6      # ft
 RA = 170   # lb
@@ -284,5 +318,4 @@ if __name__ == '__main__':
         'June-2021-Provo-River-Streamflow-Rates.csv'
     )
     plot_streamflow(dates, flows, sites)
-
-    plt.savefig("provo_streamflow.png", dpi=150, bbox_inches="tight")
+    summarize(dates, flows, sites)
