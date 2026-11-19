@@ -9,4 +9,8 @@ delta = 5 * (w / 12) * (L * 12)**4 / (384 * E * I)    # in
 
 print(f"Maximum moment: {M_max:.1f} kip-ft")
 print(f"Maximum deflection: {delta:.2f} in")
-print(f"L/360 limit: {L * 12 / 360:.2f} in")
+deflection_limit = L * 12 / 360
+print(f"L/360 limit: {deflection_limit:.2f} in")
+
+if delta > deflection_limit:
+    print("WARNING: Deflection exceeds the L/360 limit.")
