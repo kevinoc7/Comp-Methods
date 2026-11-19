@@ -204,69 +204,52 @@ plt.grid(True)
 plt.show()
 
 
-data = load_csv('2013-2014-Pasadena-Temperature-Data.csv')
+pasadena_file = DATA_DIR / '2013-2014-Pasadena-Temperature-Data.csv'
+if pasadena_file.is_file():
+    data = load_csv(pasadena_file.name)
+    x = pd.to_datetime(data[:, 0])
+    y_1 = data[:, 1].astype(float)
+    y_2 = data[:, 2].astype(float)
 
-import pandas as pd
-
-x = pd.to_datetime(data[:,0])
-y_1 = data[:, 1].astype(float)
-y_2 = data[:, 2].astype(float)
-
-
-plt.figure(figsize=(10, 6))
-
-plt.plot(x, y_1, label='High Temperature',
-         color='orangered', linewidth=2)
-
-plt.plot(x, y_2, label='Low Temperature',
-         color='teal', linewidth=2)
-plt.title('Pasadena Temperature Data 2013-2014', fontsize=18)
-plt.xlabel('Date')
-plt.ylabel('Degrees (Fahrenheit)')
-
-plt.legend()
-plt.grid(True)
-
-plt.xticks(rotation=45)
-
-plt.tight_layout()
-plt.show()
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, y_1, label='High Temperature',
+             color='orangered', linewidth=2)
+    plt.plot(x, y_2, label='Low Temperature',
+             color='teal', linewidth=2)
+    plt.title('Pasadena Temperature Data 2013-2014', fontsize=18)
+    plt.xlabel('Date')
+    plt.ylabel('Degrees (Fahrenheit)')
+    plt.legend()
+    plt.grid(True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
 
 
 
-data = load_csv('Fremont-Bridge-Bicycle-Count.csv')
+fremont_file = DATA_DIR / 'Fremont-Bridge-Bicycle-Count.csv'
+if fremont_file.is_file():
+    data = load_csv(fremont_file.name)
+    x = pd.to_datetime(data[:, 0])
+    y_1 = data[:, 1].astype(float)
+    y_2 = data[:, 2].astype(float)
+    y_3 = data[:, 3].astype(float)
 
-import pandas as pd
-
-x = pd.to_datetime(data[:,0])
-
-y_1 = data[:, 1].astype(float)
-y_2 = data[:, 2].astype(float)
-y_3 = data[:, 3].astype(float)
-
-
-plt.figure(figsize=(10, 6))
-
-plt.plot(x, y_1, label='Fremont Bridge Total',
-         color='cadetblue', linewidth=2)
-
-plt.plot(x, y_3, label='Fremont Bridge West Sidewalk',
-         color='darkred', linewidth=2)
-
-plt.plot(x, y_2, label='Fremont Bridge East Sidewalk',
-         color='darkorange', linewidth=2)
-
-plt.title('Fremont Bridge Bicycle Count')
-plt.xlabel('Date')
-plt.ylabel('Number of Bicycles')
-
-plt.legend()
-plt.grid(True)
-
-plt.xticks(rotation=45)
-
-plt.tight_layout()
-plt.show()
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, y_1, label='Fremont Bridge Total',
+             color='cadetblue', linewidth=2)
+    plt.plot(x, y_3, label='Fremont Bridge West Sidewalk',
+             color='darkred', linewidth=2)
+    plt.plot(x, y_2, label='Fremont Bridge East Sidewalk',
+             color='darkorange', linewidth=2)
+    plt.title('Fremont Bridge Bicycle Count')
+    plt.xlabel('Date')
+    plt.ylabel('Number of Bicycles')
+    plt.legend()
+    plt.grid(True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
 
 # Bicycle counts appear lower in the later years because travel patterns
 # changed significantly around 2020. More people worked from home and
@@ -275,73 +258,51 @@ plt.show()
 # the counts.
 
 
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
+birth_file = DATA_DIR / '2012-US-Birth-Rates.csv'
+if birth_file.is_file():
+    data = load_csv(birth_file.name)
+    x = pd.to_datetime(data[:, 0])
+    y_1 = data[:, 1].astype(float)
 
-data = load_csv('2012-US-Birth-Rates.csv')
+    plt.figure(figsize=(12, 4))
+    plt.plot(x, y_1, color='turquoise', linewidth=1.5)
+    plt.title('Average U.S. Daily Birth Data')
+    plt.xlabel('Date')
+    plt.ylabel('Births')
+    plt.grid(True)
 
-x = pd.to_datetime(data[:, 0])
-y_1 = data[:, 1].astype(float)
-
-
-plt.figure(figsize=(12, 4))
-
-plt.plot(x, y_1, color='turquoise', linewidth=1.5)
-
-plt.title('Average U.S. Daily Birth Data')
-plt.xlabel('Date')
-plt.ylabel('Births')
-
-plt.grid(True)
-
-plt.annotate(
-    "New Year's Day",
-    xy=(pd.Timestamp('2012-01-01'), 4000),
-    xytext=(pd.Timestamp('2012-01-15'), 3900),
-    arrowprops=dict(arrowstyle='->',
-                    connectionstyle='arc3,rad=-0.3',
-                    lw=2)
-)
-
-plt.annotate(
-    '4th of July',
-    xy=(pd.Timestamp('2012-07-04'), 4300),
-    xytext=(pd.Timestamp('2012-08-05'), 4200),
-    arrowprops=dict(arrowstyle='->',
-                    connectionstyle='arc3,rad=-0.4',
-                    lw=2)
-)
-
-plt.annotate(
-    'Halloween',
-    xy=(pd.Timestamp('2012-10-31'), 4680),
-    xytext=(pd.Timestamp('2012-09-15'), 4600),
-    arrowprops=dict(arrowstyle='->',
-                    connectionstyle='arc3,rad=-0.4',
-                    lw=2)
-)
-
-plt.annotate(
-    'Thanksgiving',
-    xy=(pd.Timestamp('2012-11-22'), 4475),
-    xytext=(pd.Timestamp('2012-10-12'), 4280),
-    arrowprops=dict(arrowstyle='->',
-                    connectionstyle='arc3,rad=0.4',
-                    lw=2)
-)
-
-plt.annotate(
-    'Christmas',
-    xy=(pd.Timestamp('2012-12-25'), 3850),
-    xytext=(pd.Timestamp('2012-10-22'), 3900),
-    arrowprops=dict(arrowstyle='->',
-                    connectionstyle='arc3,rad=0.5',
-                    lw=2)
-)
-
-plt.tight_layout()
-plt.show()
+    plt.annotate("New Year's Day",
+                 xy=(pd.Timestamp('2012-01-01'), 4000),
+                 xytext=(pd.Timestamp('2012-01-15'), 3900),
+                 arrowprops=dict(arrowstyle='->',
+                                 connectionstyle='arc3,rad=-0.3',
+                                 lw=2))
+    plt.annotate('4th of July',
+                 xy=(pd.Timestamp('2012-07-04'), 4300),
+                 xytext=(pd.Timestamp('2012-08-05'), 4200),
+                 arrowprops=dict(arrowstyle='->',
+                                 connectionstyle='arc3,rad=-0.4',
+                                 lw=2))
+    plt.annotate('Halloween',
+                 xy=(pd.Timestamp('2012-10-31'), 4680),
+                 xytext=(pd.Timestamp('2012-09-15'), 4600),
+                 arrowprops=dict(arrowstyle='->',
+                                 connectionstyle='arc3,rad=-0.4',
+                                 lw=2))
+    plt.annotate('Thanksgiving',
+                 xy=(pd.Timestamp('2012-11-22'), 4475),
+                 xytext=(pd.Timestamp('2012-10-12'), 4280),
+                 arrowprops=dict(arrowstyle='->',
+                                 connectionstyle='arc3,rad=0.4',
+                                 lw=2))
+    plt.annotate('Christmas',
+                 xy=(pd.Timestamp('2012-12-25'), 3850),
+                 xytext=(pd.Timestamp('2012-10-22'), 3900),
+                 arrowprops=dict(arrowstyle='->',
+                                 connectionstyle='arc3,rad=0.5',
+                                 lw=2))
+    plt.tight_layout()
+    plt.show()
 
 # Birth rates may drop on major holidays because fewer scheduled
 # births and medical procedures are performed on those days.
