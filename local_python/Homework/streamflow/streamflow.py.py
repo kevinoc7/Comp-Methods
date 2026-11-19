@@ -88,6 +88,43 @@ def summarize(dates, flows, sites):
     return summary
 
 
+def report_threshold(flows, sites):
+    """Print and save the number of hours each gauge exceeds a threshold."""
+    while True:
+        try:
+            threshold = float(input(
+                'Enter a flow threshold in cfs: '
+            ))
+            break
+        except ValueError:
+            print('Please enter a numeric threshold.')
+
+    rows = []
+    print(f"\nThreshold: {threshold:.1f} cfs")
+    print(f"{'Gauge':<10} {'Hours above threshold':>24}")
+    print("-" * 36)
+
+    for i, site in enumerate(sites):
+        gauge_flows = flows[:, i]
+        # Each reading represents 15 minutes, or 0.25 hours.
+        above_threshold = gauge_flows > threshold
+        hours_above = np.sum(above_threshold) * 0.25
+
+        print(f"{site:<10} {hours_above:>24.2f}")
+        rows.append({
+            'Gauge': site,
+            'Threshold (cfs)': threshold,
+            'Hours above threshold': hours_above,
+        })
+
+    threshold_summary = pd.DataFrame(rows)
+    threshold_summary.to_csv(
+        DATA_DIR / 'streamflow_threshold_summary.csv',
+        index=False
+    )
+    return threshold
+
+
 
 L = 6      # ft
 RA = 170   # lb
@@ -319,3 +356,4 @@ if __name__ == '__main__':
     )
     plot_streamflow(dates, flows, sites)
     summarize(dates, flows, sites)
+    report_threshold(flows, sites)
